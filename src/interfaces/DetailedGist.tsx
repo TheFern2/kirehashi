@@ -9,7 +9,9 @@ export interface DetailedGist {
   git_pull_url: string;
   git_push_url: string;
   html_url: string;
-  files: Files;
+  files: {
+    [key: string]: File | undefined;
+  };
   public: boolean;
   created_at: string;
   updated_at: string;
@@ -23,14 +25,7 @@ export interface DetailedGist {
   truncated: boolean;
 }
 
-export interface Files {
-  "stuff.md"?: Md;
-  "guide.md"?: Md;
-  "create-device.md"?: Md;
-  "notes.md"?: Md;
-}
-
-export interface Md {
+export interface File {
   filename: string;
   type: string;
   language: string;
@@ -55,50 +50,22 @@ export interface ChangeStatus {
 }
 
 export interface Owner {
-  login: Login;
+  login: string;
   id: number;
-  node_id: NodeID;
+  node_id: string;
   avatar_url: string;
   gravatar_id: string;
   url: string;
   html_url: string;
   followers_url: string;
-  following_url: FollowingURL;
-  gists_url: GistsURL;
-  starred_url: StarredURL;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
   subscriptions_url: string;
   organizations_url: string;
   repos_url: string;
-  events_url: EventsURL;
+  events_url: string;
   received_events_url: string;
-  type: Type;
+  type: string;
   site_admin: boolean;
-}
-
-export enum EventsURL {
-  HTTPSAPIGithubCOMUsersTheFern2EventsPrivacy = "https://api.github.com/users/TheFern2/events{/privacy}",
-}
-
-export enum FollowingURL {
-  HTTPSAPIGithubCOMUsersTheFern2FollowingOtherUser = "https://api.github.com/users/TheFern2/following{/other_user}",
-}
-
-export enum GistsURL {
-  HTTPSAPIGithubCOMUsersTheFern2GistsGistID = "https://api.github.com/users/TheFern2/gists{/gist_id}",
-}
-
-export enum Login {
-  TheFern2 = "TheFern2",
-}
-
-export enum NodeID {
-  MDQ6VXNlcjEwMjY1Njgy = "MDQ6VXNlcjEwMjY1Njgy",
-}
-
-export enum StarredURL {
-  HTTPSAPIGithubCOMUsersTheFern2StarredOwnerRepo = "https://api.github.com/users/TheFern2/starred{/owner}{/repo}",
-}
-
-export enum Type {
-  User = "User",
 }

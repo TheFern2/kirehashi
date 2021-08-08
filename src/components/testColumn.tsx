@@ -1,14 +1,20 @@
 import GistList from "./gistList";
 import { DetailedGist } from "../interfaces/DetailedGist";
 import detailedGistsJson from "./detailedGists.json";
+import { useState } from "react";
 
 const TestColumn = () => {
-  let mylist: any[] = detailedGistsJson;
-  console.log(mylist);
+  // let mylist: any[] = detailedGistsJson;
+  let mylist: DetailedGist[] = detailedGistsJson;
+  // console.log(mylist);
 
+  let gistNames: string[] = [];
   mylist.forEach((item) => {
-    console.log(item.url);
+    // console.log(item.description);
+    gistNames.push(item.description);
   });
+
+  // const [names, setNames] = useState(gistNames)
 
   return (
     <div className="row">
@@ -26,7 +32,7 @@ const TestColumn = () => {
         </ul>
       </div>
       <div className="col">
-        <GistList />
+        <GistList gistNames={gistNames} />
       </div>
     </div>
   );
