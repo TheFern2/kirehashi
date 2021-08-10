@@ -28,7 +28,7 @@ export interface DetailedGist {
 export interface File {
   filename: string;
   type: string;
-  language: string;
+  language: string | null;
   raw_url: string;
   size: number;
   truncated: boolean;
@@ -36,7 +36,7 @@ export interface File {
 }
 
 export interface History {
-  user: Owner;
+  user: Owner | null;
   version: string;
   committed_at: string;
   change_status: ChangeStatus;
@@ -44,9 +44,9 @@ export interface History {
 }
 
 export interface ChangeStatus {
-  total: number;
-  additions: number;
-  deletions: number;
+  total?: number;
+  additions?: number;
+  deletions?: number;
 }
 
 export interface Owner {

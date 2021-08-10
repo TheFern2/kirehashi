@@ -32,7 +32,7 @@
   {
     "id": "bacd1573dfd236973200c166837a2829",
     "description": "academy.tcm-hideSidebar",
-    "updated_at": "2021-07-08T17:03:01Z",
+    "updated_at": "2021-08-10T12:09:57Z",
     "html_url": "https://gist.github.com/bacd1573dfd236973200c166837a2829"
   },
   {
@@ -178,5 +178,197 @@
     "description": "A simple NikePlus API description to fetch past run metrics",
     "updated_at": "2020-01-23T01:18:40Z",
     "html_url": "https://gist.github.com/2f1f6a637b58be3418b4500817430141"
+  },
+  {
+    "id": "9ff569bc2c3ddd8a2ff68489a9cb3ad5",
+    "description": "Deploy nodejs app with gitlab.com and pm2",
+    "updated_at": "2020-01-07T22:20:58Z",
+    "html_url": "https://gist.github.com/9ff569bc2c3ddd8a2ff68489a9cb3ad5"
+  },
+  {
+    "id": "3534c6849fddb875cfa065ae648e0433",
+    "description": "Vim Configuration",
+    "updated_at": "2021-03-01T19:31:34Z",
+    "html_url": "https://gist.github.com/3534c6849fddb875cfa065ae648e0433"
+  },
+  {
+    "id": "6c1e8fc7df3b2cd0f1916eb957ced81a",
+    "description": "Neovim",
+    "updated_at": "2019-10-31T16:33:12Z",
+    "html_url": "https://gist.github.com/6c1e8fc7df3b2cd0f1916eb957ced81a"
+  },
+  {
+    "id": "989ecb598e59e4aa18a0690c951912cf",
+    "description": "Jupyter-Docs",
+    "updated_at": "2019-10-26T10:34:28Z",
+    "html_url": "https://gist.github.com/989ecb598e59e4aa18a0690c951912cf"
+  },
+  {
+    "id": "261e896b5a7718fc0c56544b15df608d",
+    "description": "FAB-Layout",
+    "updated_at": "2019-10-13T14:03:28Z",
+    "html_url": "https://gist.github.com/261e896b5a7718fc0c56544b15df608d"
+  },
+  {
+    "id": "532b88a7bf81fb2c1a786dd1f6757919",
+    "description": "FAB-NoFunctionKeys",
+    "updated_at": "2019-10-13T14:07:40Z",
+    "html_url": "https://gist.github.com/532b88a7bf81fb2c1a786dd1f6757919"
+  },
+  {
+    "id": "233eb6a7ab3128d3c6d1845f8a175508",
+    "description": "FAB-Keypad",
+    "updated_at": "2019-10-13T19:58:06Z",
+    "html_url": "https://gist.github.com/233eb6a7ab3128d3c6d1845f8a175508"
+  },
+  {
+    "id": "ed4a65d642a9d764a267d3ba3454825b",
+    "description": "Keyboard-Building-Guide",
+    "updated_at": "2019-10-29T00:31:59Z",
+    "html_url": "https://gist.github.com/ed4a65d642a9d764a267d3ba3454825b"
+  },
+  {
+    "id": "bcf5d2613bd30f1b43e502e2ce0b3c6b",
+    "description": "sdfsd",
+    "updated_at": "2020-12-02T00:06:38Z",
+    "html_url": "https://gist.github.com/bcf5d2613bd30f1b43e502e2ce0b3c6b"
+  },
+  {
+    "id": "970270c55cd9d29483cbf8f92df7d173",
+    "description": "Reset Branch",
+    "updated_at": "2019-10-10T12:15:32Z",
+    "html_url": "https://gist.github.com/970270c55cd9d29483cbf8f92df7d173"
+  },
+  {
+    "id": "e66bf3b27e9875cfbc1a82b35fb91f9a",
+    "description": "Global gitignore",
+    "updated_at": "2019-10-08T09:58:21Z",
+    "html_url": "https://gist.github.com/e66bf3b27e9875cfbc1a82b35fb91f9a"
+  },
+  {
+    "id": "c481672a864fe5188c3af7385ca55950",
+    "description": "Droplet Configuration",
+    "updated_at": "2019-10-05T10:54:27Z",
+    "html_url": "https://gist.github.com/c481672a864fe5188c3af7385ca55950"
+  },
+  {
+    "id": "efa5db3617a75ffc426725cdbcdda05e",
+    "description": "Change \"origin\" of your GIT repository",
+    "updated_at": "2019-10-05T08:04:54Z",
+    "html_url": "https://gist.github.com/efa5db3617a75ffc426725cdbcdda05e"
+  },
+  {
+    "id": "e4c11f6a38ded7772502c4a757613628",
+    "description": "Visual Studio Code Settings Sync Gist",
+    "updated_at": "2019-11-25T15:10:38Z",
+    "html_url": "https://gist.github.com/e4c11f6a38ded7772502c4a757613628"
+  },
+  {
+    "id": "2d612f80f0796fdf4ea2e28c1127d8a3",
+    "description": "Cmder",
+    "updated_at": "2019-10-26T17:28:20Z",
+    "html_url": "https://gist.github.com/2d612f80f0796fdf4ea2e28c1127d8a3"
+  },
+  {
+    "id": "c89f313078c49a4ea1588f310deff663",
+    "description": "Pull Request - Merge Worfklow",
+    "updated_at": "2019-09-28T23:53:05Z",
+    "html_url": "https://gist.github.com/c89f313078c49a4ea1588f310deff663"
+  },
+  {
+    "id": "39a8fe196796860cd0bcc265c9422c4f",
+    "description": "Git Scripts",
+    "updated_at": "2019-09-28T07:47:45Z",
+    "html_url": "https://gist.github.com/39a8fe196796860cd0bcc265c9422c4f"
+  },
+  {
+    "id": "ef4c024259021788ab4b6810c07c9b33",
+    "description": "Testing a pull request, then merging locally; and avoiding TOCTOU",
+    "updated_at": "2019-09-28T04:54:05Z",
+    "html_url": "https://gist.github.com/ef4c024259021788ab4b6810c07c9b33"
+  },
+  {
+    "id": "b3eb7f645ae5f4940cbcc94fa3279ca1",
+    "description": "Bring your feature branch up to date with master. Deploying from Git branches adds flexibility. Bring your branch up to date with master and deploy it to make sure everything works. If everything looks good the branch can be merged. Otherwise, you can deploy your master branch to return production to its stable state.",
+    "updated_at": "2019-09-28T02:37:47Z",
+    "html_url": "https://gist.github.com/b3eb7f645ae5f4940cbcc94fa3279ca1"
+  },
+  {
+    "id": "12671d16da96c8653a113d89fe2f7ca0",
+    "description": "Git-Collaboration",
+    "updated_at": "2020-04-02T15:03:16Z",
+    "html_url": "https://gist.github.com/12671d16da96c8653a113d89fe2f7ca0"
+  },
+  {
+    "id": "37fc97657de58cd6f67dcbea5d15d341",
+    "description": "Pip Packages Development",
+    "updated_at": "2019-09-23T05:50:56Z",
+    "html_url": "https://gist.github.com/37fc97657de58cd6f67dcbea5d15d341"
+  },
+  {
+    "id": "e0a9c4cfc7fcbfadf8b87ba8b47d27b7",
+    "description": "Programs, Plugins, Configurations for Machines",
+    "updated_at": "2019-09-22T09:20:24Z",
+    "html_url": "https://gist.github.com/e0a9c4cfc7fcbfadf8b87ba8b47d27b7"
+  },
+  {
+    "id": "4d3d57f50a7ce48057081d9885abce78",
+    "description": "Linux Things",
+    "updated_at": "2019-09-22T07:15:53Z",
+    "html_url": "https://gist.github.com/4d3d57f50a7ce48057081d9885abce78"
+  },
+  {
+    "id": "2b9f577fc8b0032163b4a67a7e4ab3d0",
+    "description": "License and Installs on Linux",
+    "updated_at": "2020-02-05T19:16:37Z",
+    "html_url": "https://gist.github.com/2b9f577fc8b0032163b4a67a7e4ab3d0"
+  },
+  {
+    "id": "f210c4c4a6d9d8c601d4e0dbb6ae4545",
+    "description": "reset intellij idea 14 - 2017.x.x evaluation",
+    "updated_at": "2020-02-12T17:14:28Z",
+    "html_url": "https://gist.github.com/f210c4c4a6d9d8c601d4e0dbb6ae4545"
+  },
+  {
+    "id": "bdb1e018791c70507ebbd7025f0a5cd2",
+    "description": "Git Commands for mere mortals",
+    "updated_at": "2019-09-25T23:34:07Z",
+    "html_url": "https://gist.github.com/bdb1e018791c70507ebbd7025f0a5cd2"
+  },
+  {
+    "id": "029adae80464fdfd3f8a5c4e56c1f3c6",
+    "description": "JavaFX Application Deployment",
+    "updated_at": "2019-09-12T20:48:50Z",
+    "html_url": "https://gist.github.com/029adae80464fdfd3f8a5c4e56c1f3c6"
+  },
+  {
+    "id": "46239093d373b9d74bbe7ff9e8634bb5",
+    "description": "Droplet Ubuntu 18.04 Notes",
+    "updated_at": "2019-09-15T21:30:30Z",
+    "html_url": "https://gist.github.com/46239093d373b9d74bbe7ff9e8634bb5"
+  },
+  {
+    "id": "f23ef9834434c6e52c28c0c9c88571d2",
+    "description": "Setup Linux Good Info",
+    "updated_at": "2021-05-21T14:47:18Z",
+    "html_url": "https://gist.github.com/f23ef9834434c6e52c28c0c9c88571d2"
+  },
+  {
+    "id": "53ffc1e122c5319c90d4d898920a270a",
+    "description": "My Vimrc Configuration",
+    "updated_at": "2019-07-15T08:03:16Z",
+    "html_url": "https://gist.github.com/53ffc1e122c5319c90d4d898920a270a"
+  },
+  {
+    "id": "99d3ef8b50af69a819672a241ed3cf13",
+    "description": "Balsamiq Mockups 3 crack",
+    "updated_at": "2018-12-08T01:37:44Z",
+    "html_url": "https://gist.github.com/99d3ef8b50af69a819672a241ed3cf13"
+  },
+  {
+    "id": "ee45074f2eac20bf340841d8562c832f",
+    "description": "",
+    "updated_at": "2018-11-30T07:36:33Z",
+    "html_url": "https://gist.github.com/ee45074f2eac20bf340841d8562c832f"
   }
 ]
