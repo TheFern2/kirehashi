@@ -6,7 +6,7 @@ import { useState } from "react";
 const TestColumn = () => {
   // let mylist: any[] = detailedGistsJson;
   let mylist: DetailedGist[] = detailedGistsJson;
-  // console.log(mylist);
+  console.log(mylist);
 
   let gistNames: string[] = [];
   mylist.forEach((item) => {
@@ -32,7 +32,7 @@ const TestColumn = () => {
         </ul>
       </div>
       <div className="col">
-        <GistList gistNames={gistNames} />
+        <GistList detailedGists={mylist} />
       </div>
     </div>
   );

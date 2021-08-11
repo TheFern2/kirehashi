@@ -1,9 +1,10 @@
+import { DetailedGist } from "../interfaces/DetailedGist";
 import Gist from "./gist";
 
-const GistList = (props: { gistNames: string[] }) => {
-  console.log(props.gistNames);
-  const gistList = props.gistNames.map((gist) => {
-    return <Gist gistName={gist} />;
+const GistList = (props: { detailedGists: DetailedGist[] }) => {
+  console.log(props.detailedGists.length);
+  const gistList = props.detailedGists.map((gistData) => {
+    return <Gist key={gistData.id} gistData={gistData} />;
   });
   return <div>{gistList}</div>;
 };
