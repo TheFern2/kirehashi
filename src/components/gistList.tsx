@@ -6,7 +6,7 @@ const GistList = (props: { detailedGists: DetailedGist[] }) => {
   const gistList = props.detailedGists.map((gistData) => {
     return <Gist key={gistData.id} gistData={gistData} />;
   });
-  return <div>{gistList}</div>;
+  return <div className="gist-list">{gistList}</div>;
 };
 
 export default GistList;

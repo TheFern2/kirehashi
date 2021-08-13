@@ -36,3 +36,35 @@
     transform: rotate(360deg);
   }
 }
+
+.gist-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin: 0 auto 15px;
+  max-width: 100%;
+  width: 800px;
+  background-color: #61dafb;
+  border-radius: 10px;
+}
+
+.gist-description {
+  padding-right: 15px;
+}
+
+.gist-top-left {
+  display: flex;
+  flex-direction: row;
+}
+
+.gist-top {
+  display: flex;
+  flex-direction: row;
+}
+
+.gist-top-right {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  padding-right: 15px;
+}
