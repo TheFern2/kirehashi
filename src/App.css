@@ -69,6 +69,14 @@
   padding-right: 15px;
 }
 
-.gist-top-right i{
- margin-left: 8px;
+.gist-top-right i {
+  margin-left: 8px;
+}
+
+.gist-bottom p {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 10em;
+  line-height: 1em;
 }
