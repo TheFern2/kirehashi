@@ -1,12 +1,17 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 import { DetailedGist } from "../interfaces/DetailedGist";
 import "../App.css";
 
 const Gist = (props: { gistData: DetailedGist }) => {
   console.log(Object.keys(props.gistData.files)[0]);
   const firstFile = Object.keys(props.gistData.files)[0];
+  const firstFileLanguage = props.gistData.files[firstFile]?.language;
   const gistDescription =
     props.gistData.description !== "" ? props.gistData.description : "Untitled";
+  const firstFileContent = props.gistData.files[firstFile]?.content
+  const contentSplitInLines = firstFileContent!.split(/\r?\n/);  // split by: \r\n  or  \n
+  const truncatedContent = contentSplitInLines.slice(0, 10)
 
   return (
     <div className="gist-container">
@@ -22,7 +27,7 @@ const Gist = (props: { gistData: DetailedGist }) => {
         </div>
       </div>
       <div className="gist-bottom">
-        <p>{props.gistData.files[firstFile]?.content}</p>
+        {firstFileLanguage === "Markdown" ? <ReactMarkdown>{truncatedContent.join("\n")}</ReactMarkdown> : <p>{truncatedContent.join("\n")}</p>}
       </div>
     </div>
   );
