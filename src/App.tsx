@@ -2,13 +2,18 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import NavBar from "./components/navBar";
-import TestColumn from "./components/testColumn";
+import home from "./components/home";
+import { Switch, Route } from "react-router-dom";
+import fullGist from "./components/fullGist";
 
 function App() {
   return (
     <React.Fragment>
       <NavBar />
-      <TestColumn />
+      <Switch>
+        <Route exact path="/" component={home}></Route>
+        <Route path="/fullGist/:gistDescription" component={fullGist}></Route>
+      </Switch>
     </React.Fragment>
   );
 }

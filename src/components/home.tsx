@@ -1,12 +1,11 @@
 import GistList from "./gistList";
 import { DetailedGist } from "../interfaces/DetailedGist";
 import detailedGistsJson from "./detailedGists.json";
-import { useState } from "react";
 
 const TestColumn = () => {
   // let mylist: any[] = detailedGistsJson;
   let mylist: DetailedGist[] = detailedGistsJson;
-  console.log(mylist);
+  // console.log(mylist);
 
   let gistNames: string[] = [];
   mylist.forEach((item) => {
