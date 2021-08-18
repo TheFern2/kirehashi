@@ -10,7 +10,7 @@ export interface DetailedGist {
   git_push_url: string;
   html_url: string;
   files: {
-    [key: string]: File | undefined;
+    [key: string]: GistFile | undefined;
   };
   public: boolean;
   created_at: string;
@@ -25,7 +25,7 @@ export interface DetailedGist {
   truncated: boolean;
 }
 
-export interface File {
+export interface GistFile {
   filename: string;
   type: string;
   language: string | null;

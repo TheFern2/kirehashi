@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { DetailedGist } from "../interfaces/DetailedGist";
-import fullGist from "./fullGist";
+import FullGist from "./fullGist";
 import { Switch, Route, Link } from "react-router-dom";
 import "../App.css";
 
@@ -47,8 +47,11 @@ const Gist = (props: { gistData: DetailedGist }) => {
         )}
         <Link
           to={{
-            pathname: `/fullGist/${gistDescription}`,
-            state: { gistDescription: gistDescription },
+            pathname: `/fullGist/${props.gistData.id}`,
+            state: {
+              id: props.gistData.id,
+              gistData: props.gistData,
+            },
           }}
         >
           Gist Detail Test

@@ -4,7 +4,7 @@ import "./App.css";
 import NavBar from "./components/navBar";
 import home from "./components/home";
 import { Switch, Route } from "react-router-dom";
-import fullGist from "./components/fullGist";
+import FullGist from "./components/fullGist";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/" component={home}></Route>
-        <Route path="/fullGist/:gistDescription" component={fullGist}></Route>
+        <Route path="/fullGist/:id" component={FullGist}></Route>
       </Switch>
     </React.Fragment>
   );
