@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useLayoutEffect } from "react";
 import { DetailedGistContext } from "../App";
 import { RouteComponentProps } from "react-router-dom";
 import Gist from "./gist";
@@ -15,6 +15,9 @@ const FullGist = ({ match }: RouteComponentProps<TParams>) => {
   const gistDataContext = useContext(DetailedGistContext);
   // const { state } = useLocation<props>();
   // console.log(state.id);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // find correct gist based on id, this will be one array item, since is only one id
   // need to handle when id doesn't exist
@@ -26,7 +29,7 @@ const FullGist = ({ match }: RouteComponentProps<TParams>) => {
   // console.log(state.gistData.files[keys[0]]);
 
   return (
-    <div>
+    <div className="gist-full">
       {keys.map((key, index) => {
         // Only send gist description for first/top gist
         const gistDescription = index === 0 ? gistData.description : undefined;
