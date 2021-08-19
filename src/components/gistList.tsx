@@ -5,19 +5,22 @@ import { DetailedGistContext } from "../App";
 
 const GistList = (props: { detailedGists: DetailedGist[] }) => {
   // console.log(props.detailedGists.length);
-  const myContextStuff = useContext(DetailedGistContext);
-  console.log(myContextStuff);
+  // const myContextStuff = useContext(DetailedGistContext);
+  // console.log(myContextStuff);
   const gistList = props.detailedGists.map((gistData) => {
     const firstFile = Object.keys(gistData.files)[0];
-    const firstFileLanguage = gistData.files[firstFile]?.language;
+    // const firstFileLanguage = gistData.files[firstFile]?.language;
     return (
       <Gist
         key={gistData.id}
+        gistId={gistData.id}
         gistData={gistData.files[firstFile]}
         isPublic={gistData.public}
         isEditable={false}
         fullView={false}
         gistDescription={gistData.description}
+        isClickable={true}
+        maxLines={10}
       />
     );
   });

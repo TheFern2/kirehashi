@@ -1,35 +1,45 @@
-import React from "react";
-import ReactMarkdown from "react-markdown";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { DetailedGist } from "../interfaces/DetailedGist";
-import { RouteComponentProps, useLocation } from "react-router-dom";
-import GistFull from "./gistFile";
+import React, { useContext } from "react";
+import { DetailedGistContext } from "../App";
+import { RouteComponentProps } from "react-router-dom";
+import Gist from "./gist";
 import "../App.css";
+import NavBar from "./navBar";
 
 // https://www.pluralsight.com/guides/react-router-typescript
-interface props extends RouteComponentProps {
-  gistData: DetailedGist;
-  id: string;
-}
+// interface props extends RouteComponentProps {
+//   id: string;
+// }
+type TParams = { id: string };
 
-const FullGist = () => {
-  // console.log(location.state);
-  const { state } = useLocation<props>();
+const FullGist = ({ match }: RouteComponentProps<TParams>) => {
+  const gistDataContext = useContext(DetailedGistContext);
+  // const { state } = useLocation<props>();
   // console.log(state.id);
-  const keys = Object.keys(state.gistData.files);
+
+  // find correct gist based on id, this will be one array item, since is only one id
+  // need to handle when id doesn't exist
+  const gistData = gistDataContext.filter(
+    (gist) => gist.id === match.params.id
+  )[0];
+
+  const keys = Object.keys(gistData.files);
   // console.log(state.gistData.files[keys[0]]);
 
   return (
     <div>
-      <h4>{state.gistData.description}</h4>
       {keys.map((key, index) => {
+        // Only send gist description for first/top gist
+        const gistDescription = index === 0 ? gistData.description : undefined;
         return (
-          <GistFull
+          <Gist
             key={index}
-            isPublic={state.gistData.public}
-            gistDescription={state.gistData.description}
-            data={state.gistData.files[key]}
+            gistId={gistData.id}
+            gistData={gistData.files[key]}
+            isPublic={gistData.public}
+            isEditable={true}
+            fullView={true}
+            gistDescription={gistDescription}
+            isClickable={false}
           />
         );
       })}

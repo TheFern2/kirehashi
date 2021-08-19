@@ -7,23 +7,37 @@ import FullGist from "./fullGist";
 import { Switch, Route, Link } from "react-router-dom";
 import "../App.css";
 import { DetailedGistContext } from "../App";
+import { useHistory } from "react-router-dom";
 
 const Gist = (props: {
+  gistId: string;
   gistData: GistFile | undefined;
   isPublic: boolean;
   isEditable: boolean;
   fullView: boolean;
   maxLines?: number;
   gistDescription?: string;
+  isClickable: boolean;
 }) => {
   // console.log(Object.keys(props.gistData.files)[0]);
   // const firstFile = Object.keys(props.gistData.files)[0];
   // const firstFileLanguage = props.gistData.files[firstFile]?.language;
   // const gistDescription = props.gistData.description !== "" ? props.gistData.description : "Untitled";
   // const firstFileContent = props.gistData.files[firstFile]?.content;
+  const history = useHistory();
+  const maxLines = props.maxLines ? props.maxLines : 25;
   const fileContent = props.gistData!.content;
   const contentSplitInLines = fileContent!.split(/\r?\n/); // split by: \r\n  or  \n
-  const truncatedContent = contentSplitInLines.slice(0, 25);
+  const truncatedContent = props.fullView
+    ? contentSplitInLines.slice(0, contentSplitInLines.length)
+    : contentSplitInLines.slice(0, maxLines);
+
+  const handleDetailedGist = () => {
+    // console.log("test function");
+    if (props.isClickable) {
+      history.push(`/fullGist/${props.gistId}`);
+    }
+  };
 
   return (
     <div className="gist-container">
@@ -40,11 +54,16 @@ const Gist = (props: {
         </div>
         <div className="gist-top-right">
           <i className="fa fa-github"></i>
-          <i className="fa fa-pencil"></i>
+          {props.isEditable && <i className="fa fa-pencil"></i>}
           <i className="fa fa-trash-o"></i>
         </div>
-      </div>
-      <div className="gist-bottom">
+      </div>{" "}
+      <div
+        className={
+          props.isClickable ? "gist-bottom highlighted" : "gist-bottom"
+        }
+        onClick={handleDetailedGist}
+      >
         {props.gistData!.language === "Markdown" ? (
           <ReactMarkdown className="markdown">
             {truncatedContent.join("\n")}

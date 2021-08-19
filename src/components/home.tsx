@@ -1,18 +1,16 @@
 import GistList from "./gistList";
+import React, { useContext } from "react";
+import { DetailedGistContext } from "../App";
 import { DetailedGist } from "../interfaces/DetailedGist";
 import detailedGistsJson from "./detailedGists.json";
 
-const TestColumn = () => {
+const Home = () => {
   // let mylist: any[] = detailedGistsJson;
-  let mylist: DetailedGist[] = detailedGistsJson;
+  // let mylist: DetailedGist[] = detailedGistsJson;
   // console.log(mylist);
 
-  // For now we're storing fake api data into localStorage
-  // This will be replaced with real api data
-  localStorage.setItem("DETAILED_DATA", JSON.stringify(mylist));
-
-  // Then make this data available through context
-  // TODO Json mockup data and mylist and localStorage move to App
+  const gistDataContext = useContext(DetailedGistContext);
+  // console.log(gistDataContext);
 
   return (
     <div className="row">
@@ -30,10 +28,10 @@ const TestColumn = () => {
         </ul>
       </div>
       <div className="col">
-        <GistList detailedGists={mylist} />
+        <GistList detailedGists={gistDataContext!} />
       </div>
     </div>
   );
 };
 
-export default TestColumn;
+export default Home;
