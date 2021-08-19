@@ -7,13 +7,12 @@ const TestColumn = () => {
   let mylist: DetailedGist[] = detailedGistsJson;
   // console.log(mylist);
 
-  let gistNames: string[] = [];
-  mylist.forEach((item) => {
-    // console.log(item.description);
-    gistNames.push(item.description);
-  });
+  // For now we're storing fake api data into localStorage
+  // This will be replaced with real api data
+  localStorage.setItem("DETAILED_DATA", JSON.stringify(mylist));
 
-  // const [names, setNames] = useState(gistNames)
+  // Then make this data available through context
+  // TODO Json mockup data and mylist and localStorage move to App
 
   return (
     <div className="row">
