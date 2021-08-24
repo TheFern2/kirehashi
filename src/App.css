@@ -79,3 +79,11 @@ h4 {
 .gist-bottom .language {
   border-radius: 5px;
 }
+
+#filtering {
+  margin-left: 10px;
+}
+
+.pagination {
+  justify-content: center;
+}
