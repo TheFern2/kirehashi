@@ -36,6 +36,7 @@ const FullGist = ({ match }: RouteComponentProps<TParams>) => {
         return (
           <Gist
             key={index}
+            gistUrl={gistData.html_url}
             gistId={gistData.id}
             gistData={gistData.files[key]}
             isPublic={gistData.public}

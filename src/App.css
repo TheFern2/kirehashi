@@ -36,6 +36,12 @@ nav {
 
 .gist-top-right i {
   margin-left: 8px;
+  align-items: center;
+}
+
+.gist-top-right > a {
+  text-decoration: none;
+  color: black;
 }
 
 .gist-top-left h6,
@@ -50,7 +56,7 @@ h4 {
 
 .gist-bottom.highlighted .markdown:hover {
   cursor: pointer;
-  border: 1px solid yellow;
+  border: 1px solid black;
 }
 
 .gist-bottom.highlighted .language {
@@ -60,7 +66,7 @@ h4 {
 
 .gist-bottom.highlighted .language:hover {
   cursor: pointer;
-  border: 1px solid yellow;
+  border: 1px solid black;
 }
 
 .gist-bottom .markdown {

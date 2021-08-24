@@ -13,6 +13,7 @@ const GistList = (props: { detailedGists: DetailedGist[] }) => {
     return (
       <Gist
         key={gistData.id}
+        gistUrl={gistData.html_url}
         gistId={gistData.id}
         gistData={gistData.files[firstFile]}
         isPublic={gistData.public}
@@ -27,4 +28,4 @@ const GistList = (props: { detailedGists: DetailedGist[] }) => {
   return <div className="gist-list">{gistList}</div>;
 };
 
-export default GistList;
+export default React.memo(GistList);

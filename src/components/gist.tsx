@@ -10,6 +10,7 @@ import { DetailedGistContext } from "../App";
 import { useHistory } from "react-router-dom";
 
 const Gist = (props: {
+  gistUrl: string;
   gistId: string;
   gistData: GistFile | undefined;
   isPublic: boolean;
@@ -53,7 +54,9 @@ const Gist = (props: {
           {props.isPublic && <i className="fa fa-user-secret"></i>}
         </div>
         <div className="gist-top-right">
-          <i className="fa fa-github"></i>
+          <a href={props.gistUrl} target="_blank" rel="noreferrer">
+            <i className="fa fa-github"></i>
+          </a>
           {props.isEditable && <i className="fa fa-pencil"></i>}
           <i className="fa fa-trash-o"></i>
         </div>

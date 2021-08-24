@@ -2,25 +2,38 @@ import GistList from "./gistList";
 import React, { useContext } from "react";
 import { DetailedGistContext } from "../App";
 import { DetailedGist } from "../interfaces/DetailedGist";
-import detailedGistsJson from "./detailedGists.json";
 import Filtering from "./filtering";
 import { useState } from "react";
+import { useEffect } from "react";
+import { filterGists } from "../utils/filter";
+import Pagination from "../components/pagination";
+import { paginate } from "../utils/paginate";
 
 const Home = () => {
   // let mylist: any[] = detailedGistsJson;
   // let mylist: DetailedGist[] = detailedGistsJson;
   // console.log(mylist);
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  const someLangs = ["javascript", "markdown", "text"];
-
+  const [selectedLanguage, setSelectedLanguage] = useState("All");
+  const [pageSize, setPageSize] = useState(5);
+  const [currentPage, setCurrentPage] = useState(1);
   const gistDataContext = useContext(DetailedGistContext);
+  const [filteredGists, setFilteredGists] = useState<DetailedGist[]>(
+    gistDataContext
+  );
+  const [gistData, setGistData] = useState<DetailedGist[]>(gistDataContext);
   // console.log(gistDataContext);
   const handleLanguageSelect = (language: string) => {
-    console.log(selectedLanguage);
+    // console.log(selectedLanguage);
+    console.log(language);
     setSelectedLanguage(language);
   };
 
-  let languagesFound: any[] = [];
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // setFilteredGists(paginate(filteredGists, currentPage, pageSize));
+  };
+
+  let languagesFound: any[] = ["All"];
 
   gistDataContext.forEach((gist, index) => {
     const keys = Object.keys(gist.files);
@@ -31,8 +44,24 @@ const Home = () => {
     });
   });
 
-  // console.log(new Set(languagesFound));
   languagesFound = Array.from(new Set(languagesFound));
+
+  // filter gists from filter sidebar
+  useEffect(() => {
+    console.log("useEffect render filter sidebar");
+    //setCurrentPage(1);
+    if (selectedLanguage === "All") {
+      setFilteredGists(gistDataContext);
+    } else {
+      setFilteredGists(filterGists(gistDataContext, selectedLanguage));
+    }
+  }, [selectedLanguage, gistDataContext]);
+
+  // filter gists for pagination
+  // useEffect(() => {
+  //   console.log("useEffect render pagination");
+  //   setGistData(paginate(filteredGists, currentPage, pageSize));
+  // }, [currentPage]);
 
   return (
     <div className="row">
@@ -44,7 +73,13 @@ const Home = () => {
         />
       </div>
       <div className="col">
-        <GistList detailedGists={gistDataContext!} />
+        <GistList detailedGists={filteredGists} />
+        <Pagination
+          itemsCount={filteredGists.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </div>
     </div>
   );
