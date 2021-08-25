@@ -9,8 +9,22 @@ import { filterGists } from "../utils/filter";
 import Pagination from "../components/pagination";
 import { paginate } from "../utils/paginate";
 import { usePrevious } from "../utils/customHooks";
+import { GithubApi } from "../utils/githubApi";
+import { TOKEN_SECRET } from "../secret";
+import { BriefGist } from "../interfaces/BriefGist";
 
 const Home = () => {
+  // octokit test
+  const githubApi = new GithubApi(TOKEN_SECRET);
+
+  useEffect(() => {
+    const getMyGists = async () => {
+      let testGist = await githubApi.getBriefGists();
+      console.log(testGist);
+    };
+    getMyGists();
+  }, []);
+
   // let mylist: any[] = detailedGistsJson;
   // let mylist: DetailedGist[] = detailedGistsJson;
   // console.log(mylist);
@@ -26,8 +40,7 @@ const Home = () => {
   const [gistData, setGistData] = useState<DetailedGist[]>(gistDataContext);
   // console.log(gistDataContext);
   const handleLanguageSelect = (language: string) => {
-    // console.log(selectedLanguage);
-    console.log(language);
+    // console.log(language);
     setSelectedLanguage(language);
   };
 
@@ -48,7 +61,7 @@ const Home = () => {
 
   // filter gists from filter sidebar & pagination
   useEffect(() => {
-    console.log("useEffect render filter sidebar");
+    // console.log("useEffect render filter sidebar");
     // if selectedLanguage has changed then place current page at 1
     if (selectedLanguage !== prevSelectedLanguage) {
       setCurrentPage(1);

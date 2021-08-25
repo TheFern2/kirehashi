@@ -7,7 +7,7 @@ export const usePrevious = (value: any) => {
   // Store current value in ref
   useEffect(() => {
     ref.current = value;
-  }, [value]); // Only re-run if selectedLanguage changes
+  }, [value]); // Only re-run if value changes
 
   // return previous value
   return ref.current;

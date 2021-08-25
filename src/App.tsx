@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import NavBar from "./components/navBar";
-import home from "./components/home";
+import Home from "./components/home";
 import { Switch, Route } from "react-router-dom";
 import FullGist from "./components/fullGist";
 import TestComponent from "./components/test";
@@ -23,7 +23,7 @@ function App() {
       <NavBar />
       <DetailedGistContext.Provider value={mylist}>
         <Switch>
-          <Route exact path="/" component={home}></Route>
+          <Route exact path="/" component={Home}></Route>
           <Route path="/test" component={TestComponent}></Route>
           <Route path="/fullGist/:id" component={FullGist}></Route>
         </Switch>
