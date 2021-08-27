@@ -16,7 +16,7 @@ export const DetailedGistContext = React.createContext<DetailedGist[]>(mylist);
 function App() {
   // For now we're storing fake api data into localStorage
   // This will be replaced with real api data
-  localStorage.setItem("DETAILED_DATA", JSON.stringify(mylist));
+  localStorage.setItem("GISTS_DETAILED_DATA", JSON.stringify(mylist));
 
   return (
     <React.Fragment>

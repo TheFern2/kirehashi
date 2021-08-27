@@ -11,16 +11,17 @@ import { paginate } from "../utils/paginate";
 import { usePrevious } from "../utils/customHooks";
 import { GithubApi } from "../utils/githubApi";
 import { TOKEN_SECRET } from "../secret";
-import { BriefGist } from "../interfaces/BriefGist";
 
 const Home = () => {
   // octokit test
   const githubApi = new GithubApi(TOKEN_SECRET);
+  const gistDataContext = useContext(DetailedGistContext);
 
   useEffect(() => {
     const getMyGists = async () => {
-      let testGist = await githubApi.getBriefGists();
-      console.log(testGist);
+      let briefGists = await githubApi.getBriefGists();
+      // console.log(testGist);
+      githubApi.compareDetailedGistArray(briefGists, gistDataContext);
     };
     getMyGists();
   }, []);
@@ -32,7 +33,6 @@ const Home = () => {
   const prevSelectedLanguage = usePrevious(selectedLanguage);
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  const gistDataContext = useContext(DetailedGistContext);
   let languagesFound: any[] = ["All"];
   const [filteredGists, setFilteredGists] = useState<DetailedGist[]>(
     gistDataContext

@@ -1,5 +1,83 @@
 [
   {
+    "url": "https://api.github.com/gists/0bfd1819b3f1b79c2a4c2f983dec4aca",
+    "forks_url": "https://api.github.com/gists/0bfd1819b3f1b79c2a4c2f983dec4aca/forks",
+    "commits_url": "https://api.github.com/gists/0bfd1819b3f1b79c2a4c2f983dec4aca/commits",
+    "id": "0bfd1819b3f1b79c2a4c2f983dec4aca",
+    "node_id": "MDQ6R2lzdDBiZmQxODE5YjNmMWI3OWMyYTRjMmY5ODNkZWM0YWNh",
+    "git_pull_url": "https://gist.github.com/0bfd1819b3f1b79c2a4c2f983dec4aca.git",
+    "git_push_url": "https://gist.github.com/0bfd1819b3f1b79c2a4c2f983dec4aca.git",
+    "html_url": "https://gist.github.com/0bfd1819b3f1b79c2a4c2f983dec4aca",
+    "files": {
+      "monitor_folder_sizes.py": {
+        "filename": "monitor_folder_sizes.py",
+        "type": "application/x-python",
+        "language": "Python",
+        "raw_url": "https://gist.githubusercontent.com/TheFern2/0bfd1819b3f1b79c2a4c2f983dec4aca/raw/a7ce90d12df194e56532b5700e0e7bb7911a9845/monitor_folder_sizes.py",
+        "size": 9815,
+        "truncated": false,
+        "content": "from dataclasses import dataclass\nimport os\nimport socket\nimport argparse\nimport time\n\nmega_bytes = 25\nsize_filter = 1024 * 1024 * mega_bytes\ntest_only_local = False\nroot_path = 'C:/'\n\nmachines = [\n    'Workstation01',\n    'Workstation02'\n]\n\nignore_paths = ['Windows']\none_off_paths = ['C:/Windows/Temp']\n\nsave_path = 'C:/LogFolder/MonitorFolderSizes/'\n\n@dataclass\nclass DirectoryObject:\n    path: str\n    size_in_bytes: int\n\ndef convert(seconds): \n    seconds = seconds % (24 * 3600) \n    hour = seconds // 3600\n    seconds %= 3600\n    minutes = seconds // 60\n    seconds %= 60\n      \n    return \"%d:%02d:%02d\" % (hour, minutes, seconds) \n\ndef get_directories(path='C:/'):\n\n    dirlist = []\n    if path[-1] != '/':\n        path = path + '/'\n\n    try:\n        dirlist = [ item for item in os.listdir(path) if os.path.isdir(os.path.join(path, item)) ]\n    except OSError:\n        print(f\"Unable to retrieve  {path}, ensure unc path works on that machine\")\n    dirlist_with_root = []\n    for a_dir in dirlist:\n        dirlist_with_root.append(path + a_dir)\n    return dirlist_with_root\n\ndef get_directory_size(directory):\n    \"\"\"Returns the `directory` size in bytes.\"\"\"\n    total = 0\n    try:\n        # print(\"[+] Getting the size of\", directory)\n        for entry in os.scandir(directory):\n            if entry.is_file():\n                # if it's a file, use stat() function\n                total += entry.stat().st_size\n            elif entry.is_dir():\n                # if it's a directory, recursively call this function\n                total += get_directory_size(entry.path)\n    except OSError:\n        pass\n    except NotADirectoryError:\n        # if `directory` isn't a directory, get the file size then\n        return os.path.getsize(directory)\n    except PermissionError:\n        # if for whatever reason we can't open the folder, return 0\n        return 0\n    return total\n\ndef get_size_format(b, factor=1024, suffix=\"B\"):\n    \"\"\"\n    Scale bytes to its proper byte format\n    e.g:\n        1253656 => '1.20MB'\n        1253656678 => '1.17GB'\n    \"\"\"\n    for unit in [\"\", \"K\", \"M\", \"G\", \"T\", \"P\", \"E\", \"Z\"]:\n        if b < factor:\n            return f\"{b:.2f}{unit}{suffix}\"\n        b /= factor\n    return f\"{b:.2f}Y{suffix}\"\n\ndef main():\n    global test_only_local, mega_bytes, root_path, size_filter\n\n    parser = argparse.ArgumentParser()\n    parser.add_argument('--test-local-only', action='store_true')\n    parser.add_argument('--root-path')\n    parser.add_argument('--megabytes', type=int)\n    args = parser.parse_args()\n\n    if args.test_local_only:\n        test_only_local = True\n    if args.megabytes:\n        mega_bytes = args.megabytes\n        size_filter = 1024 * 1024 * mega_bytes\n    if args.root_path:\n        root_path = args.root_path\n    \n    host_ran = False\n    remote_path = root_path.replace('C:', '')\n\n    print('Starting...')\n    overall_start = time.time()\n    for machine in machines:\n        print(f'Machine: {machine}')\n        if host_ran and test_only_local:\n            break\n        hostname = socket.gethostname()\n        #root_path = \"\"\n\n        if machine == hostname:\n            host_ran = True\n            if args.root_path:\n                root_path = args.root_path\n            else:\n                root_path = \"C:/\"\n        else:\n            root_path = \"//\" + machine + \"/c$\" + remote_path\n            hostname = machine\n\n        # dir_list = get_directories('C:/TestFolder')\n        dir_list = get_directories(root_path)\n        dir_data = []\n\n        # get size for root_path directories but not ignore paths\n        for a_dir in dir_list:\n            base_dir = os.path.basename(a_dir)\n            if base_dir not in ignore_paths:\n                start = time.time()\n                size_bytes = get_directory_size(a_dir)\n                end = time.time()\n                if size_bytes > 0:\n                    print(f\"{a_dir} {get_size_format(size_bytes)} Time taken: {convert(end-start)}\" )\n                    dir_data.append(DirectoryObject(a_dir, size_bytes))\n\n        # get size for one off paths were we need to know the size regardless of ignore paths\n        for one_off in one_off_paths:            \n            if machine != socket.gethostname():\n                one_off_path = one_off.replace('C:', '')\n                path_to_check = \"//\" + machine + \"/c$\" + one_off_path                \n            else:\n                path_to_check = one_off\n            \n            start = time.time()\n            size_bytes = get_directory_size(path_to_check)\n            end = time.time()\n            if size_bytes > 0:\n                print(f\"{path_to_check} {get_size_format(size_bytes)} Time taken: {convert(end-start)}\" )\n                dir_data.append(DirectoryObject(path_to_check, size_bytes))\n\n        if dir_data:\n            if root_path != 'C:/' and host_ran or root_path[-3:] != 'c$/' and not host_ran:\n                folder_name = os.path.basename(root_path)\n                folder_save_path = save_path + machine + '/' + folder_name\n                initial_sizes_path = folder_save_path + '/' + 'initial_sizes.txt'\n                increased_sizes_path = folder_save_path + '/' + 'increased_sizes.txt'\n                if not os.path.exists(folder_save_path):\n                    os.makedirs(folder_save_path)\n            else:\n                folder_save_path = save_path + machine\n                if not os.path.exists(folder_save_path):\n                    os.makedirs(folder_save_path)\n                initial_sizes_path = folder_save_path + '/' + 'initial_sizes.txt'\n                increased_sizes_path = folder_save_path + '/' + 'increased_sizes.txt'\n        else:\n            continue\n\n        if not os.path.isfile(initial_sizes_path) and dir_data:\n            out = []\n            f = open(initial_sizes_path, \"w\")\n            for a_dir in dir_data:\n                out.append(a_dir.path + \",\" + str(a_dir.size_in_bytes) + \"\\n\")\n            f.writelines(out)\n            f.close()\n        else:\n            # update initial_sizes.txt with new folders, leave initial folders with same data\n            ## LOAD initial sizes data\n            initial_sizes_data = []\n            f = open(initial_sizes_path, \"r\")        \n            initial_sizes_lines = f.readlines()\n            f.close()\n            for line in initial_sizes_lines:\n                clean_line = line.strip('\\n')\n                path, size_bytes = clean_line.split(',')\n                initial_sizes_data.append(DirectoryObject(path, size_bytes))\n\n            ## data lists\n            dir_data_paths = []\n            for a_dir in dir_data:\n                dir_data_paths.append(a_dir.path)\n\n            initial_sizes_paths = []\n            for a_dir in initial_sizes_data:\n                initial_sizes_paths.append(a_dir.path)\n\n            ## CHECK what has increased\n            increased_sizes_data = []\n            for a_dir in initial_sizes_data:\n                for b_dir in dir_data:\n                    if b_dir.path in initial_sizes_paths:\n                        if b_dir.size_in_bytes > int(a_dir.size_in_bytes) + size_filter and a_dir.path == b_dir.path:\n                            size_increase = b_dir.size_in_bytes - int(a_dir.size_in_bytes)\n                            print(f'Size increased {a_dir.path} {get_size_format(size_increase)}')\n                            increased_sizes_data.append(a_dir.path + \",\" + str(a_dir.size_in_bytes) + \",\" +  str(b_dir.size_in_bytes) + \",\" + str(size_increase) + \"\\n\")\n                            break\n                        elif int(a_dir.size_in_bytes) == b_dir.size_in_bytes and a_dir.path == b_dir.path:\n                            break\n\n            ## WRITE to file\n            if increased_sizes_data:\n                f = open(increased_sizes_path, \"w\")\n                f.writelines(increased_sizes_data)\n                f.close()\n\n            ## CHECK if any dirs have decreased their size if so update initial sizes\n            # else future comparisons won't be correct\n            for a_index in range(len(initial_sizes_data)):\n                for b_index in range(len(dir_data)):\n                    if dir_data[b_index].path in initial_sizes_paths:\n                        if dir_data[b_index].size_in_bytes < int(initial_sizes_data[a_index].size_in_bytes) and initial_sizes_data[a_index].path == dir_data[b_index].path:\n                            size_update = dir_data[b_index].size_in_bytes\n                            initial_sizes_data[a_index].size_in_bytes = size_update \n                            print(f'Size decreased {initial_sizes_data[a_index].path} {get_size_format(size_update)}')\n                            break\n                        elif int(initial_sizes_data[a_index].size_in_bytes) == dir_data[b_index].size_in_bytes and initial_sizes_data[a_index].path == dir_data[b_index].path:\n                            break\n\n            ## CHECK new folders, if not add to initial sizes  list\n            for a_dir in dir_data:\n                if a_dir.path not in initial_sizes_paths:\n                    initial_sizes_data.append(DirectoryObject(a_dir.path, a_dir.size_in_bytes))\n            \n            ## CHECK if existing initial folders still exist\n            for index in range(len(initial_sizes_paths)):\n                if initial_sizes_paths[index] not in dir_data_paths:\n                    initial_sizes_data.remove(initial_sizes_data[index])\n\n            ## write file with new data\n            out = []\n            f = open(initial_sizes_path, \"w\")\n            for a_dir in initial_sizes_data:\n                out.append(a_dir.path + \",\" + str(a_dir.size_in_bytes) + \"\\n\")\n            f.writelines(out)\n            f.close()\n    \n    overall_end = time.time()\n    print(f'Done. took {convert(overall_end-overall_start)}')\n\nif __name__ == \"__main__\":\n    main()"
+      }
+    },
+    "public": true,
+    "created_at": "2021-08-12T14:49:13Z",
+    "updated_at": "2021-08-12T14:49:13Z",
+    "description": "Monitor Folder Sizes",
+    "comments": 0,
+    "user": null,
+    "comments_url": "https://api.github.com/gists/0bfd1819b3f1b79c2a4c2f983dec4aca/comments",
+    "owner": {
+      "login": "TheFern2",
+      "id": 10265682,
+      "node_id": "MDQ6VXNlcjEwMjY1Njgy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10265682?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/TheFern2",
+      "html_url": "https://github.com/TheFern2",
+      "followers_url": "https://api.github.com/users/TheFern2/followers",
+      "following_url": "https://api.github.com/users/TheFern2/following{/other_user}",
+      "gists_url": "https://api.github.com/users/TheFern2/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/TheFern2/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/TheFern2/subscriptions",
+      "organizations_url": "https://api.github.com/users/TheFern2/orgs",
+      "repos_url": "https://api.github.com/users/TheFern2/repos",
+      "events_url": "https://api.github.com/users/TheFern2/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/TheFern2/received_events",
+      "type": "User",
+      "site_admin": false
+    },
+    "forks": [],
+    "history": [
+      {
+        "user": {
+          "login": "TheFern2",
+          "id": 10265682,
+          "node_id": "MDQ6VXNlcjEwMjY1Njgy",
+          "avatar_url": "https://avatars.githubusercontent.com/u/10265682?v=4",
+          "gravatar_id": "",
+          "url": "https://api.github.com/users/TheFern2",
+          "html_url": "https://github.com/TheFern2",
+          "followers_url": "https://api.github.com/users/TheFern2/followers",
+          "following_url": "https://api.github.com/users/TheFern2/following{/other_user}",
+          "gists_url": "https://api.github.com/users/TheFern2/gists{/gist_id}",
+          "starred_url": "https://api.github.com/users/TheFern2/starred{/owner}{/repo}",
+          "subscriptions_url": "https://api.github.com/users/TheFern2/subscriptions",
+          "organizations_url": "https://api.github.com/users/TheFern2/orgs",
+          "repos_url": "https://api.github.com/users/TheFern2/repos",
+          "events_url": "https://api.github.com/users/TheFern2/events{/privacy}",
+          "received_events_url": "https://api.github.com/users/TheFern2/received_events",
+          "type": "User",
+          "site_admin": false
+        },
+        "version": "670d29c3e6c30f0bed3bfd727c7d107cbfa68e8b",
+        "committed_at": "2021-08-12T14:49:12Z",
+        "change_status": { "total": 254, "additions": 254, "deletions": 0 },
+        "url": "https://api.github.com/gists/0bfd1819b3f1b79c2a4c2f983dec4aca/670d29c3e6c30f0bed3bfd727c7d107cbfa68e8b"
+      }
+    ],
+    "truncated": false
+  },
+  {
     "url": "https://api.github.com/gists/4e1bf1f777dc601afb37e56ba2f61599",
     "forks_url": "https://api.github.com/gists/4e1bf1f777dc601afb37e56ba2f61599/forks",
     "commits_url": "https://api.github.com/gists/4e1bf1f777dc601afb37e56ba2f61599/commits",

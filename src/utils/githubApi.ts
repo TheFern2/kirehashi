@@ -1,5 +1,7 @@
 import { Octokit } from "@octokit/rest";
+import { OctokitResponse } from "@octokit/types";
 import { BriefGist } from "../interfaces/BriefGist";
+import { DetailedGist } from "../interfaces/DetailedGist";
 
 export class GithubApi {
   private _personalToken: string = "";
@@ -33,7 +35,8 @@ export class GithubApi {
       res.data.map((gist) => {
         const gistObj: BriefGist = {
           id: gist.id,
-          description: gist.description!,
+          description: gist.description ? gist.description : "",
+          created_at: gist.created_at,
           updated_at: gist.updated_at,
           html_url: gist.html_url,
         };
@@ -45,31 +48,134 @@ export class GithubApi {
     return result;
   };
 
-  compareGistsArray = (arr1: Array<BriefGist>, arr2: Array<BriefGist>) => {
+  // test edit, test delete, test add
+  // how to know which one is the most updated one?
+  // We want to know what to edit, delete, put on localStorage
+  compareGistsArray = (
+    apiData: Array<BriefGist>,
+    localStorage: Array<BriefGist>
+  ) => {
     let count = 0;
     let gistsNotMatching = [];
-    for (let i = 0; i < arr1.length; i++) {
-      for (let j = 0; j < arr2.length; j++) {
+    let compare1: BriefGist[] = [];
+    let compare2: BriefGist[] = [];
+
+    // We want compare1 to be larger
+    if (apiData.length > localStorage.length) {
+      compare1 = apiData;
+      compare2 = localStorage;
+    } else {
+      compare1 = localStorage;
+      compare2 = apiData;
+    }
+
+    for (let i = 0; i < compare1.length; i++) {
+      // need a sanity check if a BriefGist doesn't exist on other array
+      const itemFound = compare2.find(
+        (element) => element.id === compare1[i].id
+      );
+      if (!itemFound) {
+        gistsNotMatching.push(compare1[i]);
+        console.log(`Item found ${compare1[i]}`);
+        continue;
+      }
+      for (let j = 0; j < compare2.length; j++) {
         if (
-          arr1[i].updated_at === arr2[j].updated_at &&
-          arr1[i].id === arr2[j].id
+          compare1[i].updated_at === compare2[j].updated_at &&
+          compare1[i].id === compare2[j].id
         ) {
           count++;
         } else if (
-          arr1[i].updated_at !== arr2[j].updated_at &&
-          arr1[i].id === arr2[j].id
+          compare1[i].updated_at !== compare2[j].updated_at &&
+          compare1[i].id === compare2[j].id
         ) {
-          gistsNotMatching.push(arr1[i]);
+          gistsNotMatching.push(compare1[i]);
+          console.log(compare1[i]);
         }
       }
     }
 
     const result = {
       isEqual:
-        arr1.length === arr2.length && count === arr1.length ? true : false,
+        compare1.length === compare2.length && count === compare1.length
+          ? true
+          : false,
       gistsNotMatching: gistsNotMatching,
     };
 
     return result;
+  };
+
+  // Return updated array
+  compareDetailedGistArray = async (
+    apiData: Array<BriefGist>,
+    localStorage: Array<DetailedGist>
+  ) => {
+    let newDetailedGistData: DetailedGist[] = [];
+    let newTestData: string[] = [];
+    let countGistCalls = 0;
+
+    for (let index = 0; index < apiData.length; index++) {
+      const apiElement = apiData[index];
+      const lsElement = localStorage.find(
+        (lsElement) => lsElement.id === apiElement.id
+      );
+      if (!lsElement) {
+        // testing without calling api first
+        newTestData.push(apiElement.id);
+        console.log(`New element: ${apiElement.id} ${apiElement.description}`);
+
+        // New Element test
+        try {
+          const newGistPromise = [];
+          newGistPromise.push(this.getDetailedGist(apiElement.id));
+          const response = await Promise.allSettled(newGistPromise);
+          countGistCalls++;
+
+          if (response[0].status === "fulfilled") {
+            newDetailedGistData.push(response[0].value.data as DetailedGist);
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        console.log(
+          `Existing element found ${apiElement.id} ${apiElement.description}`
+        );
+        if (lsElement.updated_at === apiElement.updated_at) {
+          console.log(
+            `Existing element matched date ${apiElement.id} ${apiElement.description}`
+          );
+          newDetailedGistData.push(lsElement);
+        } else {
+          console.log(
+            `Existing element did not match date ${apiElement.id} ${apiElement.description}`
+          );
+          // New Element test
+          countGistCalls++;
+          try {
+            const newGistPromise = [];
+            newGistPromise.push(this.getDetailedGist(apiElement.id));
+            const response = await Promise.allSettled(newGistPromise);
+
+            if (response[0].status === "fulfilled") {
+              newDetailedGistData.push(response[0].value.data as DetailedGist);
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+    }
+    console.log(newDetailedGistData);
+    console.log(`Number of detailed gist calls: ${countGistCalls}`);
+  };
+
+  // Need functions for single gist operations, get, edit, delete...
+  private getDetailedGist = async (gist_id: string) => {
+    const gist = await this._octokit.gists.get({
+      gist_id: gist_id,
+    });
+    return gist;
   };
 }
