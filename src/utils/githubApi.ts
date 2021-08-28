@@ -1,7 +1,9 @@
 import { Octokit } from "@octokit/rest";
-import { OctokitResponse } from "@octokit/types";
 import { BriefGist } from "../interfaces/BriefGist";
 import { DetailedGist } from "../interfaces/DetailedGist";
+import { components } from "@octokit/openapi-types";
+
+export type GithubGist = components["schemas"]["gist-simple"];
 
 export class GithubApi {
   private _personalToken: string = "";
@@ -46,6 +48,24 @@ export class GithubApi {
     );
 
     return result;
+  };
+
+  // called on very first app launch to get all detailed gists
+  getDetailedGists = async () => {
+    const briefGists = await this.getBriefGists();
+    const gistsPromises: any[] = [];
+    briefGists.forEach((gist) => {
+      gistsPromises.push(this._octokit.gists.get({ gist_id: gist.id }));
+    });
+
+    const detailedGists: GithubGist[] = [];
+    const notesPromises = await Promise.allSettled(gistsPromises);
+    notesPromises.forEach((response) => {
+      if (response.status === "fulfilled") {
+        detailedGists.push(response.value.data);
+      }
+    });
+    return detailedGists;
   };
 
   // test edit, test delete, test add
@@ -109,9 +129,9 @@ export class GithubApi {
   // Return updated array
   compareDetailedGistArray = async (
     apiData: Array<BriefGist>,
-    localStorage: Array<DetailedGist>
+    localStorage: Array<GithubGist>
   ) => {
-    let newDetailedGistData: DetailedGist[] = [];
+    let newDetailedGistData: GithubGist[] = [];
     let newTestData: string[] = [];
     let countGistCalls = 0;
 
@@ -133,7 +153,7 @@ export class GithubApi {
           countGistCalls++;
 
           if (response[0].status === "fulfilled") {
-            newDetailedGistData.push(response[0].value.data as DetailedGist);
+            newDetailedGistData.push(response[0].value.data as GithubGist);
           }
         } catch (error) {
           console.error(error);
@@ -159,7 +179,7 @@ export class GithubApi {
             const response = await Promise.allSettled(newGistPromise);
 
             if (response[0].status === "fulfilled") {
-              newDetailedGistData.push(response[0].value.data as DetailedGist);
+              newDetailedGistData.push(response[0].value.data as GithubGist);
             }
           } catch (error) {
             console.error(error);
@@ -169,6 +189,7 @@ export class GithubApi {
     }
     console.log(newDetailedGistData);
     console.log(`Number of detailed gist calls: ${countGistCalls}`);
+    return newDetailedGistData;
   };
 
   // Need functions for single gist operations, get, edit, delete...

@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useLayoutEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { DetailedGistContext } from "../App";
 import { RouteComponentProps } from "react-router-dom";
 import Gist from "./gist";
 import "../App.css";
-import NavBar from "./navBar";
 
 // https://www.pluralsight.com/guides/react-router-typescript
 // interface props extends RouteComponentProps {
@@ -25,7 +24,7 @@ const FullGist = ({ match }: RouteComponentProps<TParams>) => {
     (gist) => gist.id === match.params.id
   )[0];
 
-  const keys = Object.keys(gistData.files);
+  const keys = Object.keys(gistData.files!);
   // console.log(state.gistData.files[keys[0]]);
 
   return (
@@ -38,7 +37,7 @@ const FullGist = ({ match }: RouteComponentProps<TParams>) => {
             key={index}
             gistUrl={gistData.html_url}
             gistId={gistData.id}
-            gistData={gistData.files[key]}
+            gistData={gistData.files![key]}
             isPublic={gistData.public}
             isEditable={true}
             fullView={true}

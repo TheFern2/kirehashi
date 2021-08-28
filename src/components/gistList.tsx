@@ -1,21 +1,20 @@
-import React, { useContext } from "react";
-import { DetailedGist } from "../interfaces/DetailedGist";
+import React from "react";
 import Gist from "./gist";
-import { DetailedGistContext } from "../App";
+import { GithubGist } from "../utils/githubApi";
 
-const GistList = (props: { detailedGists: DetailedGist[] }) => {
+const GistList = (props: { detailedGists: GithubGist[] }) => {
   // console.log(props.detailedGists.length);
   // const myContextStuff = useContext(DetailedGistContext);
   // console.log(myContextStuff);
   const gistList = props.detailedGists.map((gistData) => {
-    const firstFile = Object.keys(gistData.files)[0];
+    const firstFile = Object.keys(gistData.files!)[0];
     // const firstFileLanguage = gistData.files[firstFile]?.language;
     return (
       <Gist
         key={gistData.id}
         gistUrl={gistData.html_url}
         gistId={gistData.id}
-        gistData={gistData.files[firstFile]}
+        gistData={gistData.files![firstFile]}
         isPublic={gistData.public}
         isEditable={false}
         fullView={false}

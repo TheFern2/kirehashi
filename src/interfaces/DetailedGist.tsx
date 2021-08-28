@@ -24,13 +24,13 @@ export interface DetailedGist {
 }
 
 export interface GistFile {
-  filename: string;
-  type: string;
-  language: string | null;
-  raw_url: string;
-  size: number;
-  truncated: boolean;
-  content: string;
+  filename?: string;
+  type?: string;
+  language?: string;
+  raw_url?: string;
+  size?: number;
+  truncated?: boolean;
+  content?: string;
 }
 
 export interface History {

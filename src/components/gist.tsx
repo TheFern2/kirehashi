@@ -1,30 +1,21 @@
-import React, { useContext } from "react";
 import ReactMarkdown from "react-markdown";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import { DetailedGist, GistFile } from "../interfaces/DetailedGist";
-import FullGist from "./fullGist";
-import { Switch, Route, Link } from "react-router-dom";
+import { GistFile } from "../interfaces/DetailedGist";
 import "../App.css";
-import { DetailedGistContext } from "../App";
 import { useHistory } from "react-router-dom";
 
 const Gist = (props: {
-  gistUrl: string;
-  gistId: string;
-  gistData: GistFile | undefined;
-  isPublic: boolean;
+  gistUrl: string | undefined;
+  gistId: string | undefined;
+  gistData: GistFile | null | undefined;
+  isPublic: boolean | undefined;
   isEditable: boolean;
   fullView: boolean;
   maxLines?: number;
-  gistDescription?: string;
+  gistDescription?: string | null | undefined;
   isClickable: boolean;
 }) => {
-  // console.log(Object.keys(props.gistData.files)[0]);
-  // const firstFile = Object.keys(props.gistData.files)[0];
-  // const firstFileLanguage = props.gistData.files[firstFile]?.language;
-  // const gistDescription = props.gistData.description !== "" ? props.gistData.description : "Untitled";
-  // const firstFileContent = props.gistData.files[firstFile]?.content;
   const history = useHistory();
   const maxLines = props.maxLines ? props.maxLines : 25;
   const fileContent = props.gistData!.content;

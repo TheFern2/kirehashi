@@ -8,10 +8,11 @@ import FullGist from "./components/fullGist";
 import TestComponent from "./components/test";
 import { DetailedGist } from "./interfaces/DetailedGist";
 import detailedGistsJson from "./components/detailedGists.json";
+import { GithubGist } from "./utils/githubApi";
 
-let mylist: DetailedGist[] = detailedGistsJson;
+let mylist: GithubGist[] = detailedGistsJson;
 // Then make this data available through context
-export const DetailedGistContext = React.createContext<DetailedGist[]>(mylist);
+export const DetailedGistContext = React.createContext<GithubGist[]>(mylist);
 
 function App() {
   // For now we're storing fake api data into localStorage

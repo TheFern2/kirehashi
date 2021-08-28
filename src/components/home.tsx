@@ -9,22 +9,22 @@ import { filterGists } from "../utils/filter";
 import Pagination from "../components/pagination";
 import { paginate } from "../utils/paginate";
 import { usePrevious } from "../utils/customHooks";
-import { GithubApi } from "../utils/githubApi";
+import { GithubGist, GithubApi } from "../utils/githubApi";
 import { TOKEN_SECRET } from "../secret";
 
 const Home = () => {
   // octokit test
-  const githubApi = new GithubApi(TOKEN_SECRET);
-  const gistDataContext = useContext(DetailedGistContext);
+  // const githubApi = new GithubApi(TOKEN_SECRET);
+  // const gistDataContext = useContext(DetailedGistContext);
 
-  useEffect(() => {
-    const getMyGists = async () => {
-      let briefGists = await githubApi.getBriefGists();
-      // console.log(testGist);
-      githubApi.compareDetailedGistArray(briefGists, gistDataContext);
-    };
-    getMyGists();
-  }, []);
+  // useEffect(() => {
+  //   const getMyGists = async () => {
+  //     let briefGists = await githubApi.getBriefGists();
+  //     // console.log(testGist);
+  //     githubApi.compareDetailedGistArray(briefGists, gistDataContext);
+  //   };
+  //   getMyGists();
+  // }, []);
 
   // let mylist: any[] = detailedGistsJson;
   // let mylist: DetailedGist[] = detailedGistsJson;
@@ -34,10 +34,10 @@ const Home = () => {
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   let languagesFound: any[] = ["All"];
-  const [filteredGists, setFilteredGists] = useState<DetailedGist[]>(
+  const [filteredGists, setFilteredGists] = useState<GithubGist[]>(
     gistDataContext
   );
-  const [gistData, setGistData] = useState<DetailedGist[]>(gistDataContext);
+  const [gistData, setGistData] = useState<GithubGist[]>(gistDataContext);
   // console.log(gistDataContext);
   const handleLanguageSelect = (language: string) => {
     // console.log(language);
@@ -49,9 +49,9 @@ const Home = () => {
   };
 
   gistDataContext.forEach((gist, index) => {
-    const keys = Object.keys(gist.files);
+    const keys = Object.keys(gist.files!);
     keys.forEach((key) => {
-      if (gist.files[key]?.language) {
+      if (gist.files) {
         languagesFound.push(gist.files[key]?.language);
       }
     });
