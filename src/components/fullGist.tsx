@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { DetailedGistContext } from "../App";
 import { RouteComponentProps } from "react-router-dom";
 import Gist from "./gist";
 import "../App.css";
+import { GistsStateContext } from "./gistContext";
 
 // https://www.pluralsight.com/guides/react-router-typescript
 // interface props extends RouteComponentProps {
@@ -11,7 +11,7 @@ import "../App.css";
 type TParams = { id: string };
 
 const FullGist = ({ match }: RouteComponentProps<TParams>) => {
-  const gistDataContext = useContext(DetailedGistContext);
+  const { gists, updateGists } = useContext(GistsStateContext);
   // const { state } = useLocation<props>();
   // console.log(state.id);
   useEffect(() => {
@@ -20,9 +20,7 @@ const FullGist = ({ match }: RouteComponentProps<TParams>) => {
 
   // find correct gist based on id, this will be one array item, since is only one id
   // need to handle when id doesn't exist
-  const gistData = gistDataContext.filter(
-    (gist) => gist.id === match.params.id
-  )[0];
+  const gistData = gists.filter((gist) => gist.id === match.params.id)[0];
 
   const keys = Object.keys(gistData.files!);
   // console.log(state.gistData.files[keys[0]]);

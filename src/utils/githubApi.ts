@@ -65,6 +65,7 @@ export class GithubApi {
         detailedGists.push(response.value.data);
       }
     });
+    console.log(detailedGists);
     return detailedGists;
   };
 

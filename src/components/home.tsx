@@ -1,6 +1,5 @@
 import GistList from "./gistList";
 import React, { useContext } from "react";
-import { DetailedGistContext } from "../App";
 import { DetailedGist } from "../interfaces/DetailedGist";
 import Filtering from "./filtering";
 import { useState } from "react";
@@ -11,11 +10,13 @@ import { paginate } from "../utils/paginate";
 import { usePrevious } from "../utils/customHooks";
 import { GithubGist, GithubApi } from "../utils/githubApi";
 import { TOKEN_SECRET } from "../secret";
+import { GistsStateContext } from "./gistContext";
 
 const Home = () => {
   // octokit test
   // const githubApi = new GithubApi(TOKEN_SECRET);
   // const gistDataContext = useContext(DetailedGistContext);
+  const { gists, updateGists } = useContext(GistsStateContext);
 
   // useEffect(() => {
   //   const getMyGists = async () => {
@@ -34,10 +35,8 @@ const Home = () => {
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   let languagesFound: any[] = ["All"];
-  const [filteredGists, setFilteredGists] = useState<GithubGist[]>(
-    gistDataContext
-  );
-  const [gistData, setGistData] = useState<GithubGist[]>(gistDataContext);
+  const [filteredGists, setFilteredGists] = useState<GithubGist[]>(gists);
+  const [gistData, setGistData] = useState<GithubGist[]>(gists);
   // console.log(gistDataContext);
   const handleLanguageSelect = (language: string) => {
     // console.log(language);
@@ -48,7 +47,7 @@ const Home = () => {
     setCurrentPage(page);
   };
 
-  gistDataContext.forEach((gist, index) => {
+  gists.forEach((gist, index) => {
     const keys = Object.keys(gist.files!);
     keys.forEach((key) => {
       if (gist.files) {
@@ -68,19 +67,15 @@ const Home = () => {
     }
 
     if (selectedLanguage === "All") {
-      setFilteredGists(gistDataContext);
-      setGistData(paginate(gistDataContext, currentPage, pageSize));
+      setFilteredGists(gists);
+      setGistData(paginate(gists, currentPage, pageSize));
     } else {
-      setFilteredGists(filterGists(gistDataContext, selectedLanguage));
+      setFilteredGists(filterGists(gists, selectedLanguage));
       setGistData(
-        paginate(
-          filterGists(gistDataContext, selectedLanguage),
-          currentPage,
-          pageSize
-        )
+        paginate(filterGists(gists, selectedLanguage), currentPage, pageSize)
       );
     }
-  }, [selectedLanguage, gistDataContext, currentPage, pageSize]);
+  }, [selectedLanguage, gists, currentPage, pageSize]);
 
   return (
     <div className="row">
