@@ -11,6 +11,7 @@ import detailedGistsJson from "./components/detailedGists.json";
 import { GithubApi, GithubGist } from "./utils/githubApi";
 import GistsProvider, { GistsStateContext } from "./components/gistContext";
 import { TOKEN_SECRET } from "./secret";
+import TodosProvider, { TodosContext } from "./components/TodosContext";
 
 // let mylist: GithubGist[] = detailedGistsJson;
 // Then make this data available through context
@@ -165,9 +166,10 @@ function App() {
     truncated: false,
   };
 
-  updateGists([someGist]);
+  // updateGists([someGist]);
 
-  console.log(`Data from app gistContext: ${gists}`);
+  // console.log(`Data from app gistContext: ${gists}`);
+  //         <button onClick={() => updateGists(someGist as any)}>Print</button>
 
   // For now we're storing fake api data into localStorage
   // This will be replaced with real api data
