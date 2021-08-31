@@ -4,6 +4,7 @@ import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { GistFile } from "../interfaces/DetailedGist";
 import "../App.css";
 import { useHistory } from "react-router-dom";
+import React from "react";
 
 const Gist = (props: {
   gistUrl: string | undefined;
@@ -76,4 +77,4 @@ const Gist = (props: {
   );
 };
 
-export default Gist;
+export default React.memo(Gist);

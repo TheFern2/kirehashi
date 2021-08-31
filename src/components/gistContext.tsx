@@ -139,7 +139,7 @@ const someGist: GithubGist = {
 };
 
 const contextDefaultValues: GistsContextState = {
-  gists: [someGist],
+  gists: [],
   updateGists: () => {},
 };
 
@@ -155,7 +155,8 @@ const GistsProvider: FC = ({ children }) => {
 
   const updateGists = (updatedArray: GithubGist[]) => {
     console.log("updateState has been called");
-    setGists((gists) => [...gists].concat(updatedArray));
+    // setGists((gists) => [...gists].concat(updatedArray));
+    setGists(updatedArray);
   };
 
   return (

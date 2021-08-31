@@ -173,7 +173,7 @@ function App() {
 
   // For now we're storing fake api data into localStorage
   // This will be replaced with real api data
-  localStorage.setItem("GISTS_DETAILED_DATA", JSON.stringify(gists));
+  // localStorage.setItem("GISTS_DETAILED_DATA", JSON.stringify(gists));
 
   return (
     <React.Fragment>

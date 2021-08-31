@@ -15,8 +15,7 @@ import TodosProvider, { TodosContext } from "./TodosContext";
 
 const Home = () => {
   // octokit test
-  // const githubApi = new GithubApi(TOKEN_SECRET);
-  // const gistDataContext = useContext(DetailedGistContext);
+  const githubApi = new GithubApi(TOKEN_SECRET);
   const { gists, updateGists } = useContext(GistsStateContext);
   const { todos, addTodo } = useContext(TodosContext);
   const someGist: GithubGist = {
@@ -195,6 +194,34 @@ const Home = () => {
 
   languagesFound = Array.from(new Set(languagesFound));
 
+  useEffect(() => {
+    const getMyGists = async () => {
+      const gistData = localStorage.getItem("GISTS_DETAILED_DATA");
+      console.log(gistData);
+
+      // if localStorage has data
+      if (gistData) {
+        let briefGists = await githubApi.getBriefGists();
+        const newGists = await githubApi.compareDetailedGistArray(
+          briefGists,
+          JSON.parse(gistData)
+        );
+        updateGists(newGists);
+        localStorage.setItem("GISTS_DETAILED_DATA", JSON.stringify(newGists));
+      } else {
+        console.log("call all detailedGists");
+        // const detailedGists = await githubApi.getDetailedGists();
+        // updateGists(detailedGists);
+        // localStorage.setItem(
+        //   "GISTS_DETAILED_DATA",
+        //   JSON.stringify(detailedGists)
+        // );
+      }
+      // const briefGists = await githubApi.getBriefGists();
+    };
+    getMyGists();
+  }, []);
+
   // filter gists from filter sidebar & pagination
   useEffect(() => {
     // console.log("useEffect render filter sidebar");
@@ -224,8 +251,6 @@ const Home = () => {
         />
       </div>
       <div className="col">
-        <button onClick={() => addTodo("new todo")}>add todo</button>
-        <button onClick={() => updateGists(someGist as any)}>Gists</button>
         <GistList detailedGists={gistData} />
         <Pagination
           itemsCount={filteredGists.length}
