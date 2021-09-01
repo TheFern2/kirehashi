@@ -17,7 +17,7 @@ const Filtering = (props: {
               : "list-group-item"
           }
         >
-          {item}
+          {item !== null ? item : "No language"}
         </li>
       ))}
     </ul>
