@@ -5,6 +5,8 @@ import { GithubGist } from "../utils/githubApi";
 type GistsContextState = {
   gists: GithubGist[];
   updateGists: (gists: GithubGist[]) => void;
+  updateGist: (gist: GithubGist) => void;
+  addGist: (gist: GithubGist) => void;
 };
 
 type GistsProviderProps = { children: React.ReactNode };
@@ -141,6 +143,8 @@ const someGist: GithubGist = {
 const contextDefaultValues: GistsContextState = {
   gists: [],
   updateGists: () => {},
+  updateGist: () => {},
+  addGist: () => {},
 };
 
 export const GistsStateContext = React.createContext<GistsContextState>(
@@ -159,8 +163,24 @@ const GistsProvider: FC = ({ children }) => {
     setGists(updatedArray);
   };
 
+  const updateGist = (gist: GithubGist) => {
+    const newGists = gists.map((item) => {
+      if (item.id === gist.id) {
+        return gist;
+      }
+      return item;
+    });
+    setGists(newGists);
+  };
+
+  const addGist = (gist: GithubGist) => {
+    setGists((gists) => [gist, ...gists]);
+  };
+
   return (
-    <GistsStateContext.Provider value={{ gists, updateGists }}>
+    <GistsStateContext.Provider
+      value={{ gists, updateGists, updateGist, addGist }}
+    >
       {children}
     </GistsStateContext.Provider>
   );

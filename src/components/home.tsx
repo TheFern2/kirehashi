@@ -16,7 +16,7 @@ import TodosProvider, { TodosContext } from "./TodosContext";
 const Home = () => {
   // octokit test
   const githubApi = new GithubApi(TOKEN_SECRET);
-  const { gists, updateGists } = useContext(GistsStateContext);
+  const { gists, updateGists, addGist } = useContext(GistsStateContext);
   const { todos, addTodo } = useContext(TodosContext);
   const someGist: GithubGist = {
     url: "https://api.github.com/gists/234d84820a3dd1598acdf5604c186a01",
@@ -32,8 +32,8 @@ const Home = () => {
       "https://gist.github.com/234d84820a3dd1598acdf5604c186a01.git",
     html_url: "https://gist.github.com/234d84820a3dd1598acdf5604c186a01",
     files: {
-      "test.md": {
-        filename: "test.md",
+      "test2.md": {
+        filename: "test2.md",
         type: "text/markdown",
         language: "Markdown",
         raw_url:
@@ -46,7 +46,7 @@ const Home = () => {
     public: false,
     created_at: "2021-08-26T15:40:05Z",
     updated_at: "2021-08-26T15:41:03Z",
-    description: "test",
+    description: "test2",
     comments: 0,
     user: null,
     comments_url:
