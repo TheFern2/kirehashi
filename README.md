@@ -1,3 +1,25 @@
+# Setup local env project
+
+> NB: This project is using a personal token for the time being in a file, later it will be added as a setting. In github developer settings, create a personal token, check gists only.
+
+- git clone https://github.com/TheFern2/kirehashi.git
+- Create file src/secret.ts
+
+```
+export const TOKEN_SECRET = "ghp_yourtoken";
+```
+
+- run `yarn` to install packages
+- run `yarn start`
+
+# Screenshots
+
+Filter, and gists lists:
+![image1](/images/kirehashi1.png)
+
+Pagination:
+![image2](/images/kirehashi2.png)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
